@@ -34,7 +34,7 @@ ensure_output_dirs('out_dir', 'out_figs', 'out_report')
 
 # ── Config params ─────────────────────────────────────────────────────────────
 bdf_file = config.get('bdf') or config.get('eeg') or config.get('meg')
-stim_ch  = config.get('stim_channel') or 'Status'
+stim_ch  = config.get('stim_channel') or None  # None = auto-detect from stim channels
 
 if not bdf_file or not os.path.exists(bdf_file):
     raise FileNotFoundError(f"BDF file not found: {bdf_file!r}. Set 'bdf' in config.json.")
@@ -52,7 +52,7 @@ events_msg = "No events found"
 stim_picks = mne.pick_types(raw.info, stim=True)
 if len(stim_picks) > 0:
     try:
-        events = mne.find_events(raw, stim_channel=stim_ch, verbose=True)
+        events = mne.find_events(raw, stim_channel=stim_ch if stim_ch else None, verbose=True)
         if len(events) > 0:
             n_unique   = len(np.unique(events[:, 2]))
             events_msg = f"{len(events)} events, {n_unique} unique IDs: {sorted(np.unique(events[:, 2]).tolist())}"
