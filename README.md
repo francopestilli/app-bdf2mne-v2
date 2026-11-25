@@ -1,5 +1,45 @@
 # app-bdf2mne
 
+<!-- brainlife-app:begin (generated from the App manifest; edit the manifest, not this block) -->
+
+> **Converts a BioSemi BDF EEG recording to MNE-Python Raw (.fif) with mne.io.read_raw_bdf, detects events on the stimulus channel and produces raw-trace, PSD, sensor-layout and event QC figures.**
+
+Reads the BDF file with MNE-Python, saves it as raw.fif and, when a stimulus channel is present, finds events on it (Status by default). Adds a raw trace of the first 20 s, a power spectral density up to 100 Hz, electrode layout and event plots to an HTML report and the brainlife product. Use it to bring BioSemi ActiveTwo recordings into brainlife MNE pipelines. The BIDS channels, electrodes and events sidecars of the input are not applied.
+
+| | |
+|---|---|
+| 📥 **Inputs** | `neuro/eeg/bdf` |
+| 📤 **Outputs** | `neuro/meeg/mne/raw` |
+| 🐳 **Container** | `brainlife/mne:1.0.2` |
+| ⚙️ **Resources** | 1 CPUs · 16 GB memory · 1 h walltime |
+| 🔗 **Run it** | [doi.org/10.25663/brainlife.app.895](https://doi.org/10.25663/brainlife.app.895) |
+
+#### 📥 Inputs
+
+| Input | Datatype | Required | Description |
+|---|---|---|---|
+| `bdf` | `neuro/eeg/bdf` | yes | BioSemi BDF recording with optional BIDS sidecars (channels, electrodes, coordsystem, events). |
+
+#### 📤 Outputs
+
+| Output | Datatype | Description |
+|---|---|---|
+| `out_dir` | `neuro/meeg/mne/raw` | Raw EEG/MEG data converted from BDF to MNE FIF format |
+
+<details>
+<summary><b>⚙️ Parameters</b> (1)</summary>
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `stim_channel` | string | `Status` | Name of the stimulus channel used for event detection with mne.find_events; empty means auto-detect (BioSemi default Status). |
+
+</details>
+
+📚 **References used by this App:**
+- Gramfort A. et al. MEG and EEG data analysis with MNE-Python. Frontiers in Neuroscience 7:267 (2013). [doi:10.3389/fnins.2013.00267](https://doi.org/10.3389/fnins.2013.00267)
+
+<!-- brainlife-app:end -->
+
 [![Brainlife.io](https://img.shields.io/badge/brainlife.io-app-blue)](https://brainlife.io)
 
 ## Description
